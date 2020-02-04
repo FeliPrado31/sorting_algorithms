@@ -38,7 +38,7 @@ void swap(int *a, int *b);
 
 /*1-insertion_sort_list.c*/
 void insertion_sort_list(listint_t **list);
-
+void swap_node(listint_t *tmp, listint_t *next, listint_t *prev, listint_t **list);
 
 /*2-selection_sort.c*/
 void selection_sort(int *array, size_t size);
