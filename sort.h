@@ -43,5 +43,10 @@ void swap_node(listint_t *tmp, listint_t *next, listint_t *prev, listint_t **lis
 /*2-selection_sort.c*/
 void selection_sort(int *array, size_t size);
 
+/*3-quick_sort.c*/
+void quick_sort(int *array, size_t size);
+void recursive(int *array, size_t size, int start, int end);
+int partition(int *array, size_t size, int start, int pivot);
+void quickSort_swap(int *array, size_t size, int i, int j);
 
 #endif
