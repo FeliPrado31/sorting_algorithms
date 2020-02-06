@@ -8,8 +8,10 @@
  */
 void quick_sort(int *array, size_t size)
 {
-	if (array && size)
-		recursive(array, size, 0, size - 1);
+	if (array == NULL || size <= 1)
+		return;
+
+	recursive(array, size, 0, size - 1);
 }
 
 /**
@@ -21,50 +23,28 @@ void quick_sort(int *array, size_t size)
  */
 void recursive(int *array, size_t size, ssize_t start, ssize_t end)
 {
-	ssize_t partition;
+	int ext, temp, piv, inte = start - 1;
 
-	if (start < end)
+	if (start >= end)
+		return;
+
+	piv = array[end];
+
+	for (ext = start; ext <= end; ext++)
 	{
-		partition = handle_partition(array, size, start, end);
-		recursive(array, size, start, partition - 1);
-		recursive(array, size, partition + 1, end);
-	}
-}
-
-/**
- * partition - partitions an array
- * @array: array to partition
- * @size: size of the array
- * @start: start for the partition
- * @end: pivot
- * Return: returns new place
- */
-size_t handle_partition(int *array, size_t size, ssize_t start, ssize_t end)
-{
-	ssize_t partition = start;
-
-	while (partition < end)
-	{
-		if (array[partition] < array[end])
+		if (array[ext] <= piv)
 		{
-			if (start != partition)
+			inte++;
+			temp = array[inte];
+			array[inte] = array[ext];
+			array[ext] = temp;
+			if (ext != inte)
 			{
-				array[start] ^= array[partition];
-				array[partition] ^= array[start];
-				array[start] ^= array[partition];
 				print_array(array, size);
 			}
-			start += 1;
 		}
-		partition += 1;
 	}
-	if (array[start] != array[end])
-	{
-		array[start] ^= array[end];
-		array[end] ^= array[start];
-		array[start] ^= array[end];
-		print_array(array, size);
-	}
-	return (start);
-}
 
+	recursive(array, size, start, inte - 1);
+	recursive(array, size, inte + 1, end);
+}
