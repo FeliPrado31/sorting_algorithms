@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "sort.h"
 
 /**
@@ -9,6 +8,8 @@
  */
 void quick_sort(int *array, size_t size)
 {
+	if (!array || !size)
+		return;
 	recursive(array, size, 0, size - 1);
 }
 
@@ -19,15 +20,15 @@ void quick_sort(int *array, size_t size)
  * @start: starting point
  * @end: ending point
  */
-void recursive(int *array, size_t size, int start, int end)
+void recursive(int *array, size_t size, ssize_t start, ssize_t end)
 {
-	int fild;
+	if (start < end)
+	{
+		size_t p = partition(array, size, start, end);
 
-	if (end <= start)
-		return;
-	fild = partition(array, size, start, end);
-	recursive(array, size, start, fild - 1);
-	recursive(array, size, fild, end);
+		recursive(array, size, start, p - 1);
+		recursive(array, size, p + 1, end);
+	}
 }
 
 /**
@@ -35,45 +36,39 @@ void recursive(int *array, size_t size, int start, int end)
  * @array: array to partition
  * @size: size of the array
  * @start: start for the partition
- * @pivot: pivot
+ * @end: pivot
  * Return: returns new place
  */
-int partition(int *array, size_t size, int start, int pivot)
+size_t partition(int *array, size_t size, ssize_t start, ssize_t end)
 {
-	int x, i, j;
+	int i;
+	int j;
+	int pivot;
 
-	x = array[pivot];
-	i = start - 1;
-	j = pivot + 1;
+	pivot = array[end];
 
-	while ("Feli")
-	{
+	for (i = j = start; j < end; j++)
+		if (array[j] < pivot)
+			quickSort_swap(array, size, &array[j], &array[i++]);
+	quickSort_swap(array, size, &array[i], &array[end]);
 
-		do j--;
-		while (array[j] > x);
-		do i++;
-		while (array[i] < x);
-
-
-		if (i >= j)
-			return (i);
-		quickSort_swap(array, size, i, j);
-	}
+	return (i);
 }
 
 /**
  * quickSort_swap - swaps two elements
  * @array: array to swap in
  * @size: size of the array
- * @i: swapped with j
- * @j: swapped with i
+ * @a: swapped with j
+ * @b: swapped with i
  */
-void quickSort_swap(int *array, size_t size, int i, int j)
+void quickSort_swap(int *array, size_t size, int *a, int *b)
 {
-	int tmp;
-
-	tmp = array[i];
-	array[i] = array[j];
-	array[j] = tmp;
-	print_array(array, size);
+	if (*a != *b)
+	{
+		*a = *a + *b;
+		*b = *a - *b;
+		*a = *a - *b;
+		print_array((const int *)array, size);
+	}
 }

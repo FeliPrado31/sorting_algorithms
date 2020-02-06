@@ -2,9 +2,11 @@
 #define SORT
 
 /*INCLUDES*/
-
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 /* MACROS */
 
@@ -45,8 +47,8 @@ void selection_sort(int *array, size_t size);
 
 /*3-quick_sort.c*/
 void quick_sort(int *array, size_t size);
-void recursive(int *array, size_t size, int start, int end);
-int partition(int *array, size_t size, int start, int pivot);
-void quickSort_swap(int *array, size_t size, int i, int j);
+void recursive(int *array, size_t size, ssize_t start, ssize_t end);
+size_t partition(int *array, size_t size, ssize_t start, ssize_t end);
+void quickSort_swap(int *array, size_t size, int *a, int *b);
 
 #endif
