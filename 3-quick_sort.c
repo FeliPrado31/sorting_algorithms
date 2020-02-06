@@ -8,9 +8,8 @@
  */
 void quick_sort(int *array, size_t size)
 {
-	if (array == NULL || size <= 1)
-		return;
-	recursive(array, size, 0, size - 1);
+	if (array && size)
+		recursive(array, size, 0, size - 1);
 }
 
 /**
@@ -22,12 +21,13 @@ void quick_sort(int *array, size_t size)
  */
 void recursive(int *array, size_t size, ssize_t start, ssize_t end)
 {
+	ssize_t partition;
+
 	if (start < end)
 	{
-		size_t p = partition(array, size, start, end);
-
-		recursive(array, size, start, p - 1);
-		recursive(array, size, p + 1, end);
+		partition = handle_partition(array, size, start, end);
+		recursive(array, size, start, partition - 1);
+		recursive(array, size, partition + 1, end);
 	}
 }
 
@@ -39,36 +39,32 @@ void recursive(int *array, size_t size, ssize_t start, ssize_t end)
  * @end: pivot
  * Return: returns new place
  */
-size_t partition(int *array, size_t size, ssize_t start, ssize_t end)
+size_t handle_partition(int *array, size_t size, ssize_t start, ssize_t end)
 {
-	int i;
-	int j;
-	int pivot;
+	ssize_t partition = start;
 
-	pivot = array[end];
-
-	for (i = j = start; j < end; j++)
-		if (array[j] < pivot)
-			quickSort_swap(array, size, &array[j], &array[i++]);
-	quickSort_swap(array, size, &array[i], &array[end]);
-
-	return (i);
-}
-
-/**
- * quickSort_swap - swaps two elements
- * @array: array to swap in
- * @size: size of the array
- * @a: swapped with j
- * @b: swapped with i
- */
-void quickSort_swap(int *array, size_t size, int *a, int *b)
-{
-	if (*a != *b)
+	while (partition < end)
 	{
-		*a = *a + *b;
-		*b = *a - *b;
-		*a = *a - *b;
-		print_array((const int *)array, size);
+		if (array[partition] < array[end])
+		{
+			if (start != partition)
+			{
+				array[start] ^= array[partition];
+				array[partition] ^= array[start];
+				array[start] ^= array[partition];
+				print_array(array, size);
+			}
+			start += 1;
+		}
+		partition += 1;
 	}
+	if (array[start] != array[end])
+	{
+		array[start] ^= array[end];
+		array[end] ^= array[start];
+		array[start] ^= array[end];
+		print_array(array, size);
+	}
+	return (start);
 }
+
