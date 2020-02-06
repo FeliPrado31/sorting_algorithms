@@ -23,28 +23,28 @@ void quick_sort(int *array, size_t size)
  */
 void recursive(int *array, size_t size, ssize_t start, ssize_t end)
 {
-	int ext, temp, piv, inte = start - 1;
+	int index, tmp, pivot, first = start - 1;
 
 	if (start >= end)
 		return;
 
-	piv = array[end];
+	pivot = array[end];
 
-	for (ext = start; ext <= end; ext++)
+	for (index = start; index <= end; index++)
 	{
-		if (array[ext] <= piv)
+		if (array[index] <= pivot)
 		{
-			inte++;
-			temp = array[inte];
-			array[inte] = array[ext];
-			array[ext] = temp;
-			if (ext != inte)
+			first++;
+			tmp = array[first];
+			array[first] = array[index];
+			array[index] = tmp;
+			if (index != first)
 			{
 				print_array(array, size);
 			}
 		}
 	}
 
-	recursive(array, size, start, inte - 1);
-	recursive(array, size, inte + 1, end);
+	recursive(array, size, start, first - 1);
+	recursive(array, size, first + 1, end);
 }
